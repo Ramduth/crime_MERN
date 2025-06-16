@@ -1,0 +1,72 @@
+.citizen_add_complaint_row{
+    background-color: #D9D9D980;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+.citizen_add_complaint_image{
+    height: 400px;
+    width: 100%;
+}
+
+.citizen_add_complaint_div{
+    height: 100%;
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.496);
+    margin-left: 50px;
+}
+
+.citizen_add_complaint_text{
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size: larger;
+}
+
+.citizen_add_complaint_content_div{
+    height: 50%;
+    width: 80%;
+    /* margin-left: 60px; */
+    background-color: white;
+}
+
+.citizen_add_comp_button_div{
+    text-align: center;
+}
+
+.citizen_add_complaint_button{
+    background-color: #A1030380;
+    border: none;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 30%;
+    border-radius: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: white;
+    font-size: larger;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Citizen View Case Status */
+.req_status_citizen{
+    border: 3px solid rgba(0, 0, 0, 0.282);
+    padding: 20px;
+    align-items: center;
+    border-radius: 20px;
+    font-family: 'Poppins',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.font_style_status{
+    font-weight: 900;
+}

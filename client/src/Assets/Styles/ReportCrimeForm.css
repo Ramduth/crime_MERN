@@ -1,0 +1,168 @@
+.report-crime-container {
+    min-height: 100vh;
+    width: 100%;
+    background-image: url('../Images/landingmain.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+.report-crime-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.report-crime-form-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 2;
+}
+
+.report-crime-form-box h2 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.report-crime-form-box p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    height: 45px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: #dc3545;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline-danger {
+    border-width: 2px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Location Suggestions Styling */
+.location-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.suggestion-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Image Upload Styling */
+.form-label {
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+}
+
+input[type="file"] {
+    padding: 8px;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+input[type="file"]:hover {
+    border-color: #dc3545;
+}
+
+.image-preview {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.img-preview {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Group with Relative Positioning for Location Input */
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+/* Aadhar Input Specific Styling */
+input[name="aadhar"] {
+    letter-spacing: 1px;
+    font-family: monospace;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+    .report-crime-form-box {
+        padding: 20px;
+    }
+
+    .img-preview {
+        max-width: 150px;
+        max-height: 150px;
+    }
+}

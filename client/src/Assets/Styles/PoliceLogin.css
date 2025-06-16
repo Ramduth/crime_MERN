@@ -1,0 +1,9 @@
+.police_login_left {
+    background-image: url(../Images/Police_Login_Banner.png);
+    background-size: cover;
+  }
+
+.police_login_btn{
+  background: #A10303;
+  box-shadow: 2px 4px 1px 0px #00000040;
+}

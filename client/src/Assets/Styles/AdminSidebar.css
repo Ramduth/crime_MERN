@@ -1,0 +1,19 @@
+/* Admin Sidebar */
+
+.admin-sidebar-background{
+    background-color: #383638;
+    height: 100vh;
+    width: 100%;
+    min-height:155vh;
+}
+.admin-sidebar-h4{
+    color: white;
+    /* font-weight: bold; */
+}
+h5{
+    font-weight: bold;
+    cursor: pointer;
+}
+h5:hover{
+    color: red;
+}

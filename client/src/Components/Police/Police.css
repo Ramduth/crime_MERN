@@ -1,0 +1,301 @@
+/* Police register */
+.img{ 
+    height: 700px;
+    width:100%;
+}
+.policereg{
+    margin-top: 50px;
+    font-family: "poppins";
+    font-weight: bold;
+    text-align: center;
+}
+.textbox{
+    border: none;
+    height: 40px;
+    width: 305px;
+    box-shadow: 1px  3px 1px 0 rgba(0, 0, 0, 0.2);
+    color: grey;
+    height: 40px;
+    width: 100%;
+    font-size: 13px;
+    font-weight: bold;
+}
+.text{
+    border: none;
+    height: 40px;
+    width:100%;
+    box-shadow: 1px  3px 1px 0 rgba(0, 0, 0, 0.2);
+    color: grey;
+    font-size: 13px;
+    font-weight: bold;
+}
+.btnsign{
+    background-color: #A10303;
+    border-color: white;
+    color: white;
+    height: 50px;
+    width: 100%;
+    font-weight: bold;
+}
+.login{
+    text-align: center;
+    color: #00000080;
+    font-weight: bold;
+}
+.lognow{
+    text-decoration: none;
+    color: #00000080;
+    font-weight: bold;
+}
+.color{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.file-input {
+    display: none;
+  }
+  
+  .custom-file-label {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem 0;
+    color:grey;
+    box-shadow: 1px  3px 1px 0 rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    /* transition: background-color 0.3s, color 0.3s; */
+  }
+
+  #idProof{
+    align-items: center;
+    width: 100%;
+    padding: 0.4rem 0;
+    color:grey;
+    box-shadow: 1px  3px 1px 0 rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .custom-file-label i {
+    margin-right: 0.5rem;
+  }
+
+/* Police Login */
+.image{
+    height: 700px;
+    width: 700px;
+    object-fit: cover;
+}
+.btnlogin{
+    border-color: #A10303;
+    background-color: #A10303;
+    color: white;
+    border-radius: 10px;
+    height: 40px;
+    width: 400px;
+    box-shadow: 1px  3px 1px 0 rgba(0, 0, 0, 0.2);
+}
+#password{
+    box-shadow: 1px  3px 1px 0 rgba(0, 0, 0, 0.2);
+}
+.policelog{
+    font-weight: bold;
+    text-align: center;
+    margin-top: 200px;
+}
+
+/* New Police Station Register */
+
+.newpolice-stationreq-thead{
+    background-color: black;
+}
+.newpolice-stationreq-eye{
+    background-color: #00000033;
+    color:  #4B84F3;
+    font-size: 30px;
+    cursor: pointer;
+    border: none;
+    width: 20%;
+}
+.newpolice-stationreq-tick{
+    background-color: #00000033;
+    color: #088C1D;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    width: 20%;
+}
+.newpolice-stationreq-cross{
+    background-color: #00000033;
+    font-size: 30px;
+    font-weight:bolder;
+    color: #A10303;
+    cursor: pointer;
+    border: none;
+    width: 20%;
+}
+
+/* Police ViewCases */
+
+.police_view_case_main{
+    min-height:550px;
+}
+
+.policeview-cases-cross{
+    background-color: #DF1212;
+    color: white;
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.policeview-cases-tick{
+    background-color: #088C1D;
+    color: white;
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.policeview-cases-eye{
+    background-color: #0E6DDC;
+    color: white;
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.policeview-cases-eye1{
+    background-color: #0E6DDC;
+    color: white;
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Case Details */
+
+.case-details-h6{
+    background-color: #383638;
+    color: white;
+    height: 9vh;
+    width: 100%;
+}
+.case-details-span{
+    background-color: #00000033;
+    height: 6vh;
+    width: 100%;
+    color: #00000080;
+    padding-left: 10px;
+    padding-top: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+.case-details-victim{
+    color: #00000080;
+    font-size: 17px;
+}
+.case-details-victim1{
+    color: #00000080;
+    font-size: 17px;
+    font-weight: bold;
+}
+.case-details-acceptbtn{
+    border: none;
+    color: white;
+    height: 6vh;
+    width: 20%;
+    background-color: #088C1D;
+    border-radius: 10px;
+    font-weight: bold;
+}
+.case-details-rejectbtn{
+    border: none;
+    color: white;
+    height: 6vh;
+    width: 20%;
+    background-color: #DF1212;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* View All Police Station */
+
+.viewallpolicest_icon{
+    background-color: transparent;
+    color:  #4B84F3;
+    font-size: 30px;
+    cursor: pointer;
+    border: none;
+    width: 35%;
+}
+
+.viewpolicestation_cross_icon{
+    background-color: red;
+    color: white;
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.viewpolicestation_tick_icon{
+    background-color: #088C1D;
+    color: white;
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* View Police Station Profile */
+
+.viewprofile_policestation{
+    padding-top: 100px;
+}
+
+.viewprofile_policestation_cross_icon{
+    background-color: red;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    height: 40px;
+    width: 150px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.viewprofile_policestation_tick_icon{
+    background-color: #088C1D;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    height: 40px;
+    width: 150px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}

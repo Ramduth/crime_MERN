@@ -1,0 +1,46 @@
+.crime-alerts-table {
+    width: 80%;
+    margin: auto;
+    text-align: left;
+    border-collapse: collapse;
+  }
+  
+  .crime_alerts_h2 {
+    text-align: center;
+    margin: 30px;
+    color: #b00000;
+  }
+  
+  .crime-alerts-table_tab {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .crime-alerts-table-th-td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .crime-alerts-table th {
+    background-color: #000000B2;
+    color: white;
+  }
+  
+  .crime-alerts-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .view-notification-details-btn {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .view-notification-details-btn:hover {
+    background-color: #005f6ac1;
+  }
+  

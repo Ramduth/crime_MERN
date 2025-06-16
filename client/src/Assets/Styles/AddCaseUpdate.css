@@ -1,0 +1,38 @@
+.police_add_case_Update_main_div{
+    min-height: 700px;
+}
+
+.police_addcase_update {
+    border: 2px solid #00000074;
+    padding: 30px;
+    border-radius: 5px;
+    width: 70%;
+    margin-bottom: 20px
+  }
+
+.add_update_label{
+    font-family: 'Poppins',sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: #A10303;
+    padding-top: 40px;
+    padding-bottom: 40px
+}
+
+.police_add_case_row{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.add_update_button{
+    width: 30%;
+    margin-top: 20px;
+    /* margin-left: 400px; */
+}
+
+.police_add_case_update_label{
+    font-family: 'Poppins',sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #00000080;
+}

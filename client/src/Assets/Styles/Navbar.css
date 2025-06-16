@@ -1,0 +1,87 @@
+.navbar_bg {
+  background-color: #383638;
+  /* height: 10vh; */
+  padding: 5px 55px;
+  color: #ffffff;
+}
+
+.navbar_title {
+  color: #e2e2e2;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.navbar_title span {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19.5px;
+  text-align: left;
+}
+
+.navbar_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar_logo {
+  display: flex;
+  /* height: 100px; */
+  width: 210px;
+  justify-content: space-between;
+}
+
+.navbar_logo p {
+  padding: 0;
+  margin: 0;
+}
+
+.navbar_logo img {
+  height: 60px;
+  width: 60px;
+}
+
+.navbar_slogan {
+  font-size: 10.97px;
+  font-weight: 500;
+  text-align: left;
+  text-transform: capitalize;
+  color: #ffffff;
+}
+
+.navbar_sub_title {
+  width: 20%;
+}
+.navbar_sub_title p {
+  color: #e2e2e2;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 133.333% */
+  /* letter-spacing: 0.18px; */
+  text-transform: capitalize;
+}
+
+.navbar_sub_title a {
+  text-decoration: none;
+}
+.navbar_sub_title a:hover {
+  text-decoration: underline;
+  color: #ffff;
+}
+
+.landing_dropdown_style{
+  background-color: whitesmoke;
+  border-radius: 20px;
+  border-width: 5px ;
+}
+
+/* Police Navbar */
+.police_nav_main{
+  min-width: 100%;
+}
+
+#text_color_black{
+  color: black;
+}

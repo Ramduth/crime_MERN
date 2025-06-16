@@ -1,0 +1,10 @@
+.citizen_banner{
+    width: 100%;
+    height: 90vh;
+}
+
+.citizen_banner img{
+    width: 100%;
+    height: 90vh;
+    object-fit: cover;
+}

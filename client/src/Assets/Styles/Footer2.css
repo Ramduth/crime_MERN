@@ -1,0 +1,25 @@
+.footer2 {
+    height: 50px;
+    width: 100%;
+    background: #383638;
+    border-top: 1px solid #ffffff;
+    color: #ffffff;
+  }
+  
+  .footer2_titles {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%; 
+    padding: 0 10px; 
+  }
+  
+  .footer2_titles p {
+    margin: 0; 
+font-size: 13.95px;
+font-weight: 400;
+line-height: 20.93px;
+text-align: left;
+
+  }
+  

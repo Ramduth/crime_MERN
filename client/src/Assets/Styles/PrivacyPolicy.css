@@ -1,0 +1,54 @@
+.privacy_policy_form_container {
+    width: 70%;
+    margin-top: 50px;
+    padding: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.512);
+    text-align: center;
+  }
+  
+  .privacy_policy_label {
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: 600;
+  }
+  
+  .privacy_policy_content-textarea {
+    width: 100%;
+    height: 450px;
+    padding: 10px;
+    /* border: 1px solid #ccc; */
+    border: none;
+    border-radius: 5px;
+    resize: none;
+    margin-bottom: 20px;
+    background-color: #f1f1f1;
+  }
+  
+  .privacy_policy_submit-button {
+    background-color: #d9534f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .privacy_policy_submit-button:hover {
+    background-color: #c9302c;
+  }
+  
+  /* View Privacy Policy */
+  .view_policy_h5{
+    margin: 60px;
+  }
+
+  .view_policy_h4{
+    margin: 30px;
+  }
+
+  .view_policy_p{
+    margin: 60px;
+  }

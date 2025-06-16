@@ -1,0 +1,59 @@
+.citizen_profile{
+    height: 100vh;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+.citizen_profile_head {
+    position: relative;
+    height: 30vh;
+    width: 100%;
+    /* background-color:  #0e0e0e; */
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+.citizen_profile_name{
+    color: #121212;
+}
+
+.citizen_profile_title {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 20vh;
+    width: 80%;
+    background-color: #ffffff;
+    margin: auto;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    padding: 30px 50px;
+}
+
+.citizen_profile_title h4{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.citizen_profile_title p{
+    font-size: 38px;
+    font-weight: bold;
+}
+
+.citizen_profile_body {
+    height: 60vh;
+    width: 80%;
+    margin: auto;
+    margin-top: 30px;
+    border-radius: 40px;
+    padding: 30px 50px;
+}
+
+/* Approval Status */
+
+.approval_status{
+    font-size: medium;
+    margin-left: 10px;
+    font-weight: 600;
+}
