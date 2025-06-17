@@ -14,12 +14,12 @@ function ReportCrimeForm() {
         location: '',
         district: '',
         policeStationId: '',
-        photo: null,
+        photos: [],
         crimeDescription: '',
         crimeType: '',
         dateTime: ''
     });
-    const [previewUrl, setPreviewUrl] = useState('');
+    const [previewUrls, setPreviewUrls] = useState([]);
     const [locationSuggestions, setLocationSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [policeStations, setPoliceStations] = useState([]);
@@ -38,13 +38,23 @@ function ReportCrimeForm() {
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         
-        if (name === 'photo' && files[0]) {
+        if (name === 'photos' && files) {
+            const newFiles = Array.from(files);
+            const currentCount = formData.photos.length;
+            const totalCount = currentCount + newFiles.length;
+            
+            if (totalCount > 5) {
+                alert(`You can only upload a maximum of 5 files. You currently have ${currentCount} files and trying to add ${newFiles.length} more. Please remove some files first.`);
+                return;
+            }
+            
             setFormData(prev => ({
                 ...prev,
-                photo: files[0]
+                photos: [...prev.photos, ...newFiles]
             }));
-            const fileUrl = URL.createObjectURL(files[0]);
-            setPreviewUrl(fileUrl);
+            
+            const newUrls = newFiles.map(file => URL.createObjectURL(file));
+            setPreviewUrls(prev => [...prev, ...newUrls]);
         } else if (name === 'location') {
             setFormData(prev => ({
                 ...prev,
@@ -65,6 +75,31 @@ function ReportCrimeForm() {
         }
     };
 
+    useEffect(() => {
+        return () => {
+            previewUrls.forEach(url => URL.revokeObjectURL(url));
+        };
+    }, [previewUrls]);
+
+    const removeFile = (index) => {
+        setFormData(prev => ({
+            ...prev,
+            photos: prev.photos.filter((_, i) => i !== index)
+        }));
+        
+        URL.revokeObjectURL(previewUrls[index]);
+        setPreviewUrls(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const clearAllFiles = () => {
+        previewUrls.forEach(url => URL.revokeObjectURL(url));
+        setFormData(prev => ({
+            ...prev,
+            photos: []
+        }));
+        setPreviewUrls([]);
+    };
+
     const searchLocation = async (query) => {
         try {
             const response = await axios.get(
@@ -81,15 +116,12 @@ function ReportCrimeForm() {
         try {
             console.log('Selected location:', location.display_name);
             
-            // Extract district from location data
             const addressParts = location.display_name.split(',').map(part => part.trim());
             console.log('Address parts:', addressParts);
             
-            // Find district - it's usually the second-to-last part before the state
             let district = '';
             for (let i = addressParts.length - 1; i >= 0; i--) {
                 const part = addressParts[i].toLowerCase();
-                // List of districts in Kerala
                 const keralaDistricts = [
                     'alappuzha', 'ernakulam', 'idukki', 'kannur', 'kasaragod', 
                     'kollam', 'kottayam', 'kozhikode', 'malappuram', 'palakkad', 
@@ -97,7 +129,7 @@ function ReportCrimeForm() {
                 ];
                 
                 if (keralaDistricts.includes(part)) {
-                    district = part;  // Keep it lowercase, server will handle case-insensitive matching
+                    district = part;
                     break;
                 }
             }
@@ -132,7 +164,6 @@ function ReportCrimeForm() {
                     } else {
                         console.log('No police stations found:', response.data.msg);
                         setPoliceStations([]);
-                        // Show a more informative message to the user
                         alert(`No police stations found in ${district} district. Please contact the nearest police station.`);
                     }
                 } else {
@@ -172,10 +203,14 @@ function ReportCrimeForm() {
             return;
         }
 
+        if (formData.photos.length === 0) {
+            alert('Please upload at least one photo or video as evidence');
+            return;
+        }
+
         try {
             const submitData = new FormData();
             
-            // Add all form fields with correct field names
             submitData.append('victimName', formData.name);
             submitData.append('aadhar', formData.aadhar);
             submitData.append('mobile', formData.mobile);
@@ -185,22 +220,19 @@ function ReportCrimeForm() {
             submitData.append('caseType', formData.crimeType);
             submitData.append('caseDescription', formData.crimeDescription);
             
-            // Convert date string to proper format
             const dateTime = new Date(formData.dateTime);
             submitData.append('incidentDate', dateTime.toISOString().split('T')[0]);
             submitData.append('incidentTime', dateTime.toTimeString().split(' ')[0]);
             submitData.append('incidentLocation', formData.location);
             
-            // Add citizen ID only if user is logged in (optional for anonymous reporting)
             const citizenToken = localStorage.getItem('citizenToken');
             if (citizenToken) {
                 submitData.append('citizenId', citizenToken);
             }
             
-            // Add evidence photo
-            if (formData.photo) {
-                submitData.append('files', formData.photo);
-            }
+            formData.photos.forEach((file, index) => {
+                submitData.append('files', file);
+            });
 
             console.log('Submitting data:', {
                 victimName: formData.name,
@@ -213,10 +245,10 @@ function ReportCrimeForm() {
                 incidentDate: dateTime.toISOString().split('T')[0],
                 incidentTime: dateTime.toTimeString().split(' ')[0],
                 incidentLocation: formData.location,
-                citizenId: citizenToken || 'Anonymous'
+                citizenId: citizenToken || 'Anonymous',
+                filesCount: formData.photos.length
             });
 
-            // Submit the crime report
             const response = await axiosInstance.post('/addAnonymousCrime', submitData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -227,7 +259,7 @@ function ReportCrimeForm() {
 
             if (response.data.status === 200) {
                 alert('Anonymous crime report submitted successfully! The police station will review your report. Please keep your Aadhar number for future reference.');
-                navigate('/');  // Redirect to home page
+                navigate('/');
             } else {
                 alert('Error submitting report: ' + response.data.msg);
             }
@@ -404,22 +436,80 @@ function ReportCrimeForm() {
                     )}
 
                     <div className="form-group mb-3">
-                        <label className="form-label">Upload Evidence (Photo/Video)</label>
+                        <label className="form-label">Upload Evidence (Photos/Videos)</label>
                         <input
                             type="file"
                             className="form-control"
-                            name="photo"
+                            name="photos"
                             accept="image/*,video/*"
                             onChange={handleChange}
                             required
+                            multiple
                         />
-                        {previewUrl && (
+                        <small className="text-muted">
+                            You can select multiple files. Supported formats: JPG, PNG, MP4, MOV, etc. 
+                            <strong> Maximum 5 files allowed.</strong>
+                        </small>
+                        
+                        {previewUrls.length === 0 && (
+                            <div className="text-center mt-2 p-3 border border-dashed border-secondary rounded">
+                                <small className="text-muted">
+                                    📷 Click "Choose Files" to upload evidence photos/videos<br/>
+                                    <strong>At least 1 file is required</strong>
+                                </small>
+                            </div>
+                        )}
+                        
+                        {previewUrls.length > 0 && (
                             <div className="image-preview mt-2">
-                                {formData.photo && formData.photo.type.startsWith('video/') ? (
-                                    <video src={previewUrl} alt="Preview" className="img-preview" controls />
-                                ) : (
-                                    <img src={previewUrl} alt="Preview" className="img-preview" />
-                                )}
+                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 className="mb-0">
+                                        Selected Files ({formData.photos.length}/5):
+                                        {formData.photos.length >= 5 && (
+                                            <span className="text-danger ms-2 file-limit-warning">Maximum files reached</span>
+                                        )}
+                                        {formData.photos.length === 4 && (
+                                            <span className="text-warning ms-2">1 file remaining</span>
+                                        )}
+                                    </h6>
+                                    <button
+                                        type="button"
+                                        className="btn btn-sm btn-outline-danger"
+                                        onClick={clearAllFiles}
+                                    >
+                                        Clear All
+                                    </button>
+                                </div>
+                                <div className="preview-grid">
+                                    {formData.photos.map((file, index) => (
+                                        <div key={index} className="preview-item">
+                                            {file.type.startsWith('video/') ? (
+                                                <video 
+                                                    src={previewUrls[index]} 
+                                                    alt={`Video ${index + 1}`} 
+                                                    className="img-preview" 
+                                                    controls 
+                                                />
+                                            ) : (
+                                                <img 
+                                                    src={previewUrls[index]} 
+                                                    alt={`Image ${index + 1}`} 
+                                                    className="img-preview" 
+                                                />
+                                            )}
+                                            <div className="file-info">
+                                                <small>{file.name}</small>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-sm btn-danger remove-btn"
+                                                    onClick={() => removeFile(index)}
+                                                >
+                                                    ✕ Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>
