@@ -299,3 +299,31 @@
     font-size: 20px;
     font-weight: bold;
 }
+
+/* Loading spinner for buttons */
+.btn-loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Disabled button states */
+.policeview-cases-cross:disabled,
+.policeview-cases-tick:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.policeview-cases-cross:disabled:hover,
+.policeview-cases-tick:disabled:hover {
+  transform: none;
+}

@@ -10,6 +10,7 @@ import { type } from "@testing-library/user-event/dist/type";
 function PoliceViewCases({type}) {
   const navigate = useNavigate(); 
   const [data, setData] = useState([]);
+  const [loadingStates, setLoadingStates] = useState({});
   const pId = localStorage.getItem("policeId");
 
   useEffect(() => {
@@ -58,6 +59,8 @@ function PoliceViewCases({type}) {
   };
 
   const handleApprove = (caseId) => {
+    setLoadingStates(prev => ({ ...prev, [caseId]: 'approving' }));
+    
     axiosInstance
       .post(`/acceptCrimeById/${caseId}`)
       .then((res) => {
@@ -77,10 +80,15 @@ function PoliceViewCases({type}) {
       })
       .catch((error) => {
         console.error("Error", error);
+      })
+      .finally(() => {
+        setLoadingStates(prev => ({ ...prev, [caseId]: null }));
       });
   };
 
   const handleReject = (caseId) => {
+    setLoadingStates(prev => ({ ...prev, [caseId]: 'rejecting' }));
+    
     axiosInstance
       .post(`/rejectCrimeById/${caseId}`)
       .then((res) => {
@@ -94,6 +102,9 @@ function PoliceViewCases({type}) {
       })
       .catch((error) => {
         console.error("Error", error);
+      })
+      .finally(() => {
+        setLoadingStates(prev => ({ ...prev, [caseId]: null }));
       });
   };
 
@@ -115,8 +126,8 @@ function PoliceViewCases({type}) {
                 {type=='view'?<th>Crime Id</th>:''}
                 
                 <th>Victim Name</th>
-                <th>Aadhar Number</th>
-                <th>Mobile Number</th>
+                {/* <th>Aadhar Number</th>
+                <th>Mobile Number</th> */}
                 <th>Type of Crime</th>
                 <th>Witness Name</th>
                 <th>Date</th>
@@ -130,8 +141,8 @@ function PoliceViewCases({type}) {
                 <tr key={caseData._id}>
                   {type=='view'?<td>ID{caseData._id.slice(19,24)}</td>:''}
                   <td>{caseData.victimName}</td>
-                  <td>{caseData.aadhar}</td>
-                  <td>{caseData.mobile}</td>
+                  {/* <td>{caseData.aadhar}</td>
+                  <td>{caseData.mobile}</td> */}
                   <td>{caseData.caseType}</td>
                   <td>{caseData.witnessName}</td>
                   <td>{caseData.incidentDate.slice(0, 10)}</td>
@@ -142,14 +153,24 @@ function PoliceViewCases({type}) {
                       <button
                         className="policeview-cases-cross"
                         onClick={() => handleReject(caseData._id)}
+                        disabled={loadingStates[caseData._id]}
                       >
-                        <RxCross2 />
+                        {loadingStates[caseData._id] === 'rejecting' ? (
+                          <div className="btn-loading-spinner"></div>
+                        ) : (
+                          <RxCross2 />
+                        )}
                       </button>
                       <button
                         className="policeview-cases-tick ms-3"
                         onClick={() => handleApprove(caseData._id)}
+                        disabled={loadingStates[caseData._id]}
                       >
-                        <TiTick />
+                        {loadingStates[caseData._id] === 'approving' ? (
+                          <div className="btn-loading-spinner"></div>
+                        ) : (
+                          <TiTick />
+                        )}
                       </button>
                       <Link to={`/casedetails/${caseData._id}`}>
                         <button className="policeview-cases-eye ms-3">

@@ -24,6 +24,7 @@ function ReportCrimeForm() {
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [policeStations, setPoliceStations] = useState([]);
     const [isLoadingStations, setIsLoadingStations] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const crimeTypes = [
         'Theft',
@@ -208,6 +209,8 @@ function ReportCrimeForm() {
             return;
         }
 
+        setIsSubmitting(true);
+
         try {
             const submitData = new FormData();
             
@@ -271,6 +274,8 @@ function ReportCrimeForm() {
             } else {
                 alert('Error submitting form. Please try again.');
             }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -517,9 +522,10 @@ function ReportCrimeForm() {
                     <div className="text-center">
                         <button 
                             type="submit" 
-                            className="btn btn-danger submit-btn"
+                            className={`btn btn-danger submit-btn ${isSubmitting ? 'btn-loading' : ''}`}
+                            disabled={isSubmitting}
                         >
-                            Submit Report
+                            {isSubmitting ? 'Submitting...' : 'Submit Report'}
                         </button>
                     </div>
                 </form>

@@ -15,9 +15,12 @@ function CaseDetails({ type }) {
   });
   const [showModal, setShowModal] = useState(false);
   const [selectedEvidence, setSelectedEvidence] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const [isApproving, setIsApproving] = useState(false);
+  const [isRejecting, setIsRejecting] = useState(false);
 
   useEffect(() => {
     axiosInstance
@@ -46,6 +49,8 @@ function CaseDetails({ type }) {
   }, [id]);
 
   const handleApprove = (id) => {
+    setIsApproving(true);
+    
     axiosInstance
       .post(`/acceptCrimeById/${id}`)
       .then((res) => {
@@ -65,10 +70,15 @@ function CaseDetails({ type }) {
       })
       .catch((error) => {
         console.error("Error", error);
+      })
+      .finally(() => {
+        setIsApproving(false);
       });
   };
 
   const handleReject = (id) => {
+    setIsRejecting(true);
+    
     axiosInstance
       .post(`/rejectCrimeById/${id}`)
       .then((res) => {
@@ -81,6 +91,9 @@ function CaseDetails({ type }) {
       })
       .catch((error) => {
         console.error("Error", error);
+      })
+      .finally(() => {
+        setIsRejecting(false);
       });
   };
 
@@ -201,7 +214,7 @@ function CaseDetails({ type }) {
                       <span>
                         {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.email 
                           ? caseDetails.citizenId.email 
-                          : 'Not provided'}
+                          : (caseDetails.victimEmail || 'Not provided')}
                       </span>
                     </td>
                   </tr>
@@ -616,14 +629,30 @@ function CaseDetails({ type }) {
           <button
             className="btn btn-success me-2"
             onClick={() => handleApprove(caseDetails._id)}
+            disabled={isApproving || isRejecting}
           >
-            Approve
+            {isApproving ? (
+              <>
+                <div className="btn-loading-spinner me-2"></div>
+                Approving...
+              </>
+            ) : (
+              'Approve'
+            )}
           </button>
           <button
             className="btn btn-danger"
             onClick={() => handleReject(caseDetails._id)}
+            disabled={isApproving || isRejecting}
           >
-            Reject
+            {isRejecting ? (
+              <>
+                <div className="btn-loading-spinner me-2"></div>
+                Rejecting...
+              </>
+            ) : (
+              'Reject'
+            )}
           </button>
         </div>
       ) : (
