@@ -115,6 +115,8 @@ function PoliceViewCases({type}) {
                 {type=='view'?<th>Crime Id</th>:''}
                 
                 <th>Victim Name</th>
+                <th>Aadhar Number</th>
+                <th>Mobile Number</th>
                 <th>Type of Crime</th>
                 <th>Witness Name</th>
                 <th>Date</th>
@@ -128,6 +130,8 @@ function PoliceViewCases({type}) {
                 <tr key={caseData._id}>
                   {type=='view'?<td>ID{caseData._id.slice(19,24)}</td>:''}
                   <td>{caseData.victimName}</td>
+                  <td>{caseData.aadhar}</td>
+                  <td>{caseData.mobile}</td>
                   <td>{caseData.caseType}</td>
                   <td>{caseData.witnessName}</td>
                   <td>{caseData.incidentDate.slice(0, 10)}</td>

@@ -189,7 +189,7 @@ function CaseDetails({ type }) {
                       <span>
                         {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.contact 
                           ? caseDetails.citizenId.contact 
-                          : 'Not provided'}
+                          : (caseDetails.mobile || 'Not provided')}
                       </span>
                     </td>
                   </tr>

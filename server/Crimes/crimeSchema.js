@@ -25,6 +25,9 @@ const caseSchema = new mongoose.Schema({
   aadhar: {
     type: String
   },
+  mobile: {
+    type: String
+  },
   victimGender: {
     type: String
   },

@@ -9,6 +9,7 @@ function ReportCrimeForm() {
     const [formData, setFormData] = useState({
         name: '',
         aadhar: '',
+        mobile: '',
         location: '',
         district: '',
         policeStationId: '',
@@ -160,6 +161,11 @@ function ReportCrimeForm() {
             return;
         }
 
+        if (!/^\d{10}$/.test(formData.mobile)) {
+            alert('Please enter a valid 10-digit mobile number');
+            return;
+        }
+
         if (!formData.policeStationId) {
             alert('Please select a police station');
             return;
@@ -171,6 +177,7 @@ function ReportCrimeForm() {
             // Add all form fields with correct field names
             submitData.append('victimName', formData.name);
             submitData.append('aadhar', formData.aadhar);
+            submitData.append('mobile', formData.mobile);
             submitData.append('district', formData.district);
             submitData.append('psId', formData.policeStationId);
             submitData.append('caseType', formData.crimeType);
@@ -196,6 +203,7 @@ function ReportCrimeForm() {
             console.log('Submitting data:', {
                 victimName: formData.name,
                 aadhar: formData.aadhar,
+                mobile: formData.mobile,
                 district: formData.district,
                 psId: formData.policeStationId,
                 caseType: formData.crimeType,
@@ -261,6 +269,20 @@ function ReportCrimeForm() {
                             required
                             maxLength="12"
                             pattern="\d{12}"
+                        />
+                    </div>
+
+                    <div className="form-group mb-3">
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="mobile"
+                            placeholder="Mobile Number (10 digits)"
+                            value={formData.mobile}
+                            onChange={handleChange}
+                            required
+                            maxLength="10"
+                            pattern="[0-9]{10}"
                         />
                     </div>
 
@@ -367,18 +389,22 @@ function ReportCrimeForm() {
                     )}
 
                     <div className="form-group mb-3">
-                        <label className="form-label">Upload Evidence Photo</label>
+                        <label className="form-label">Upload Evidence (Photo/Video)</label>
                         <input
                             type="file"
                             className="form-control"
                             name="photo"
-                            accept="image/*"
+                            accept="image/*,video/*"
                             onChange={handleChange}
                             required
                         />
                         {previewUrl && (
                             <div className="image-preview mt-2">
-                                <img src={previewUrl} alt="Preview" className="img-preview" />
+                                {formData.photo && formData.photo.type.startsWith('video/') ? (
+                                    <video src={previewUrl} alt="Preview" className="img-preview" controls />
+                                ) : (
+                                    <img src={previewUrl} alt="Preview" className="img-preview" />
+                                )}
                             </div>
                         )}
                     </div>
