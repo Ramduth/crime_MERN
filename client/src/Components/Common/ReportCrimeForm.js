@@ -195,6 +195,7 @@ function ReportCrimeForm() {
 
             console.log('Submitting data:', {
                 victimName: formData.name,
+                aadhar: formData.aadhar,
                 district: formData.district,
                 psId: formData.policeStationId,
                 caseType: formData.crimeType,
@@ -205,7 +206,7 @@ function ReportCrimeForm() {
             });
 
             // Submit the crime report
-            const response = await axiosInstance.post('/addcrime', submitData, {
+            const response = await axiosInstance.post('/addAnonymousCrime', submitData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -214,7 +215,7 @@ function ReportCrimeForm() {
             console.log('Response:', response.data);
 
             if (response.data.status === 200) {
-                alert('Crime report submitted successfully! The police station will review your report. Please keep your Aadhar number for future reference.');
+                alert('Anonymous crime report submitted successfully! The police station will review your report. Please keep your Aadhar number for future reference.');
                 navigate('/');  // Redirect to home page
             } else {
                 alert('Error submitting report: ' + response.data.msg);

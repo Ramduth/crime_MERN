@@ -26,6 +26,9 @@ function CaseDetails({ type }) {
         console.log('Crime details response:', res.data);
         console.log('Case details:', res.data.data);
         console.log('Aadhar number:', res.data.data.aadhar);
+        console.log('Victim name:', res.data.data.victimName);
+        console.log('Citizen ID:', res.data.data.citizenId);
+        console.log('Full case details object:', JSON.stringify(res.data.data, null, 2));
 
         if (res.data.status === 200) {
           setCaseDetails(res.data.data);
@@ -174,7 +177,7 @@ function CaseDetails({ type }) {
                       <span>
                         {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.firstname 
                           ? caseDetails.citizenId.firstname 
-                          : 'Anonymous'}
+                          : (caseDetails.victimName || 'Anonymous')}
                       </span>
                     </td>
                   </tr>
@@ -208,11 +211,7 @@ function CaseDetails({ type }) {
                     </td>
                     <td className="case-details-victim1">
                       <span>
-                        {caseDetails && caseDetails.aadhar 
-                          ? caseDetails.aadhar 
-                          : (caseDetails && caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.aadhar 
-                            ? caseDetails.citizenId.aadhar 
-                            : 'Not provided')}
+                        {caseDetails.aadhar || 'Not provided'}
                       </span>
                     </td>
                   </tr>
@@ -236,7 +235,11 @@ function CaseDetails({ type }) {
                       <label>Name</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.victimName}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' 
+                          ? (caseDetails.victimName || 'Same as reported person') 
+                          : 'Not provided'}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -244,7 +247,11 @@ function CaseDetails({ type }) {
                       <label>Gender</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.victimGender}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' 
+                          ? (caseDetails.victimGender || 'Not provided') 
+                          : 'Not provided'}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -252,7 +259,11 @@ function CaseDetails({ type }) {
                       <label>Email</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.victimEmail}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' 
+                          ? (caseDetails.victimEmail || 'Not provided') 
+                          : 'Not provided'}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -260,7 +271,11 @@ function CaseDetails({ type }) {
                       <label>Address</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.victimAddress}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' 
+                          ? (caseDetails.victimAddress || 'Not provided') 
+                          : 'Not provided'}
+                      </span>
                     </td>
                   </tr>
                 </tbody>

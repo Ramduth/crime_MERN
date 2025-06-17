@@ -48,6 +48,7 @@ router.post('/viewPoliceCaseByCrimeIdForCitizen/:id',PoliceCase.viewPoliceCaseBy
 //Crime Routes
 
 router.post('/addcrime',crime.upload,crime.addCrime)
+router.post('/addAnonymousCrime',crime.upload,crime.addAnonymousCrime)
 router.post('/viewallcrime',crime.viewAllCrimes)
 router.post('/viewCrimeById/:id',crime.viewCrimeById)
 router.post('/acceptCrimeById/:id',crime.acceptCrimeById)

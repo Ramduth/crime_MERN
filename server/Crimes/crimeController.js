@@ -69,8 +69,60 @@ const addCrime = async (req, res) => {
     }
 };
 
+// Add anonymous crime report
+const addAnonymousCrime = async (req, res) => {
+    console.log('=== ADD ANONYMOUS CRIME REQUEST ===');
+    console.log('Request body:', req.body);
+    console.log('Request files:', req.files);
+    console.log('Aadhar from request:', req.body.aadhar);
+    console.log('Victim name from request:', req.body.victimName);
+    console.log('=======================');
+    
+    try {
+        // Handle file upload using Multer
+        const evidenceFiles = req.files ? req.files.map((file) => ({
+            file: file
+        })) : [];
 
+        // For anonymous reports, we don't require citizenId
+        const crimeData = {
+            ...req.body,
+            evidenceFiles: evidenceFiles,
+            // Ensure citizenId is not set for anonymous reports
+            citizenId: undefined
+        };
 
+        console.log('Anonymous crime data to save:', crimeData);
+        console.log('Aadhar in crimeData:', crimeData.aadhar);
+
+        const newCrime = new Crime(crimeData);
+
+        // Save new crime to database
+        newCrime
+            .save()
+            .then((data) => {
+                console.log('Anonymous crime saved successfully:', data);
+                console.log('Saved Aadhar:', data.aadhar);
+                res.json({
+                    status: 200,
+                    msg: "Anonymous crime report submitted successfully",
+                    data: data,
+                });
+            })
+            .catch((err) => {
+                console.error('Database save error:', err);
+                res.json({
+                    status: 500,
+                    msg: "Anonymous crime report not added",
+                    error: err.message,
+                });
+            });
+
+    } catch (error) {
+        console.log('General error:', error);
+        res.status(500).json({ message: error.message });
+    }
+};
 
 const getCaseType = (req, res) => {
     console.log("p");
@@ -628,5 +680,6 @@ module.exports = {
     viewdistrcitswithCrime,
     viewCrimesByDistrict,
     getCrimeTypeCountsByDistrict,
-    viewCrimesByDistrictPSIDAndType
+    viewCrimesByDistrictPSIDAndType,
+    addAnonymousCrime
 };
