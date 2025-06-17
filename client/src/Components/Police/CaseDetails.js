@@ -23,17 +23,21 @@ function CaseDetails({ type }) {
     axiosInstance
       .post(`/viewCrimeById/${id}`)
       .then((res) => {
-        console.log(res);
+        console.log('Crime details response:', res.data);
+        console.log('Case details:', res.data.data);
+        console.log('Aadhar number:', res.data.data.aadhar);
 
         if (res.data.status === 200) {
           setCaseDetails(res.data.data);
           localStorage.setItem("crimeId", res.data.data._id);
-          localStorage.setItem("citizenToken", res.data.data.citizenId._id);
-          console.log(res.data.data._id);
-          console.log("h", res.data.data.citizenId._id);
+          // Only store citizen token if it's a registered user with a valid _id
+          if (res.data.data.citizenId && typeof res.data.data.citizenId === 'object' && res.data.data.citizenId._id) {
+            localStorage.setItem("citizenToken", res.data.data.citizenId._id);
+          }
         }
       })
       .catch((err) => {
+        console.error('Error fetching crime details:', err);
         toast.error("Failed to fetch user details");
       });
   }, [id]);
@@ -167,7 +171,11 @@ function CaseDetails({ type }) {
                       <label>Name</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.citizenId.firstname}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.firstname 
+                          ? caseDetails.citizenId.firstname 
+                          : 'Anonymous'}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -175,7 +183,11 @@ function CaseDetails({ type }) {
                       <label>Contact</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.citizenId.contact}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.contact 
+                          ? caseDetails.citizenId.contact 
+                          : 'Not provided'}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -183,7 +195,11 @@ function CaseDetails({ type }) {
                       <label>Email</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.citizenId.email}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.email 
+                          ? caseDetails.citizenId.email 
+                          : 'Not provided'}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -191,7 +207,13 @@ function CaseDetails({ type }) {
                       <label>Aadhaar Number</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.citizenId.aadhar}</span>
+                      <span>
+                        {caseDetails && caseDetails.aadhar 
+                          ? caseDetails.aadhar 
+                          : (caseDetails && caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.aadhar 
+                            ? caseDetails.citizenId.aadhar 
+                            : 'Not provided')}
+                      </span>
                     </td>
                   </tr>
                 </tbody>

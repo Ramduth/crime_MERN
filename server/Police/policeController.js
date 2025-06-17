@@ -117,29 +117,36 @@ const viewPolices = (req, res) => {
 
 // View all Polices
 const viewPoliceByDistrict = (req, res) => {
-    Police.find({adminApproved:true,district:req.params.district})
-        .exec()
-        .then(data => {
-            if (data.length > 0) {
-                res.json({
-                    status: 200,
-                    msg: "Data obtained successfully",
-                    data: data
-                });
-            } else {
-                res.json({
-                    status: 200,
-                    msg: "No Data obtained"
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                status: 500,
-                msg: "Data not obtained",
-                Error: err
+    // Convert district to lowercase for case-insensitive search
+    const district = req.params.district.toLowerCase();
+    Police.find({
+        adminApproved: true,
+        district: { $regex: new RegExp(`^${district}$`, 'i') }  // Case-insensitive exact match
+    })
+    .exec()
+    .then(data => {
+        if (data && data.length > 0) {
+            res.json({
+                status: 200,
+                msg: "Data obtained successfully",
+                data: data
             });
+        } else {
+            res.json({
+                status: 200,
+                msg: "No police stations found in this district",
+                data: []
+            });
+        }
+    })
+    .catch(err => {
+        console.error('Error fetching police stations:', err);
+        res.status(500).json({
+            status: 500,
+            msg: "Error fetching police stations",
+            error: err.message
         });
+    });
 };
 // Update Police by ID
 const editPoliceById =async (req, res) => {

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../Assets/Styles/ReportCrimeForm.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import axiosInstance from '../Constants/BaseUrl';
 
 function ReportCrimeForm() {
     const navigate = useNavigate();
@@ -9,6 +10,8 @@ function ReportCrimeForm() {
         name: '',
         aadhar: '',
         location: '',
+        district: '',
+        policeStationId: '',
         photo: null,
         crimeDescription: '',
         crimeType: '',
@@ -17,6 +20,8 @@ function ReportCrimeForm() {
     const [previewUrl, setPreviewUrl] = useState('');
     const [locationSuggestions, setLocationSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [policeStations, setPoliceStations] = useState([]);
+    const [isLoadingStations, setIsLoadingStations] = useState(false);
 
     const crimeTypes = [
         'Theft',
@@ -36,15 +41,15 @@ function ReportCrimeForm() {
                 ...prev,
                 photo: files[0]
             }));
-            // Create preview URL
             const fileUrl = URL.createObjectURL(files[0]);
             setPreviewUrl(fileUrl);
         } else if (name === 'location') {
             setFormData(prev => ({
                 ...prev,
-                location: value
+                location: value,
+                district: '',
+                policeStationId: ''
             }));
-            // Call location API when user types
             if (value.length > 2) {
                 searchLocation(value);
             } else {
@@ -60,7 +65,6 @@ function ReportCrimeForm() {
 
     const searchLocation = async (query) => {
         try {
-            // Using OpenStreetMap Nominatim API for location search
             const response = await axios.get(
                 `https://nominatim.openstreetmap.org/search?format=json&q=${query}&countrycodes=in&limit=5`
             );
@@ -71,36 +75,128 @@ function ReportCrimeForm() {
         }
     };
 
-    const selectLocation = (location) => {
-        setFormData(prev => ({
-            ...prev,
-            location: location.display_name
-        }));
-        setShowSuggestions(false);
+    const selectLocation = async (location) => {
+        try {
+            console.log('Selected location:', location.display_name);
+            
+            // Extract district from location data
+            const addressParts = location.display_name.split(',').map(part => part.trim());
+            console.log('Address parts:', addressParts);
+            
+            // Find district - it's usually the second-to-last part before the state
+            let district = '';
+            for (let i = addressParts.length - 1; i >= 0; i--) {
+                const part = addressParts[i].toLowerCase();
+                // List of districts in Kerala
+                const keralaDistricts = [
+                    'alappuzha', 'ernakulam', 'idukki', 'kannur', 'kasaragod', 
+                    'kollam', 'kottayam', 'kozhikode', 'malappuram', 'palakkad', 
+                    'pathanamthitta', 'thiruvananthapuram', 'thrissur', 'wayanad'
+                ];
+                
+                if (keralaDistricts.includes(part)) {
+                    district = part;  // Keep it lowercase, server will handle case-insensitive matching
+                    break;
+                }
+            }
+            
+            console.log('Extracted district:', district);
+            
+            if (!district) {
+                console.log('No valid district found in location');
+                alert('Please select a location in Kerala with a valid district name');
+                return;
+            }
+            
+            setFormData(prev => ({
+                ...prev,
+                location: location.display_name,
+                district: district,
+                policeStationId: ''
+            }));
+            setShowSuggestions(false);
+            setPoliceStations([]);
+
+            setIsLoadingStations(true);
+            try {
+                console.log('Fetching police stations for district:', district);
+                const response = await axiosInstance.post(`/viewPoliceByDistrict/${district}`);
+                console.log('Police stations response:', response.data);
+                
+                if (response.data.status === 200) {
+                    if (response.data.data && response.data.data.length > 0) {
+                        setPoliceStations(response.data.data);
+                        console.log('Set police stations:', response.data.data);
+                    } else {
+                        console.log('No police stations found:', response.data.msg);
+                        setPoliceStations([]);
+                        // Show a more informative message to the user
+                        alert(`No police stations found in ${district} district. Please contact the nearest police station.`);
+                    }
+                } else {
+                    console.error('Error response:', response.data);
+                    setPoliceStations([]);
+                    alert('Error fetching police stations. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error fetching police stations:', error);
+                setPoliceStations([]);
+                alert('Error connecting to the server. Please try again.');
+            } finally {
+                setIsLoadingStations(false);
+            }
+        } catch (error) {
+            console.error('Error processing location:', error);
+            setPoliceStations([]);
+            alert('Error processing location. Please try again.');
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Validate Aadhar number (12 digits)
         if (!/^\d{12}$/.test(formData.aadhar)) {
             alert('Please enter a valid 12-digit Aadhar number');
             return;
         }
 
+        if (!formData.policeStationId) {
+            alert('Please select a police station');
+            return;
+        }
+
         try {
-            // Create FormData object for file upload
             const submitData = new FormData();
-            Object.keys(formData).forEach(key => {
-                submitData.append(key, formData[key]);
+            
+            // Add all form fields
+            submitData.append('victimName', formData.name);  // Using victimName instead of name
+            submitData.append('aadhar', formData.aadhar);
+            submitData.append('district', formData.district);
+            submitData.append('psId', formData.policeStationId);
+            submitData.append('caseType', formData.crimeType);
+            submitData.append('caseDescription', formData.crimeDescription);
+            submitData.append('incidentDate', formData.dateTime.split('T')[0]);
+            submitData.append('incidentTime', formData.dateTime.split('T')[1]);
+            submitData.append('incidentLocation', formData.location);
+            
+            // Add evidence photo
+            if (formData.photo) {
+                submitData.append('files', formData.photo);
+            }
+
+            // Submit the crime report
+            const response = await axiosInstance.post('/addcrime', submitData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
-            // Here you would typically make an API call to your backend
-            // const response = await axios.post('/api/report-crime', submitData);
-            
-            // For now, we'll just show a success message and redirect
-            alert('Crime report submitted successfully!');
-            navigate('/');
+            if (response.data.status === 200) {
+                alert('Crime report submitted successfully! The police station will review your report. Please keep your Aadhar number for future reference.');
+                navigate('/');  // Redirect to home page
+            } else {
+                alert('Error submitting report: ' + response.data.msg);
+            }
         } catch (error) {
             console.error('Error submitting form:', error);
             alert('Error submitting form. Please try again.');
@@ -203,6 +299,44 @@ function ReportCrimeForm() {
                             </div>
                         )}
                     </div>
+
+                    {formData.district && (
+                        <div className="form-group mb-3">
+                            <label className="form-label">Police Station (District: {formData.district})</label>
+                            <select
+                                className="form-control"
+                                name="policeStationId"
+                                value={formData.policeStationId}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoadingStations}
+                            >
+                                <option value="">
+                                    {isLoadingStations 
+                                        ? "Loading police stations..." 
+                                        : "Select Police Station"}
+                                </option>
+                                {Array.isArray(policeStations) && policeStations.length > 0 ? (
+                                    policeStations.map((station) => (
+                                        <option key={station._id} value={station._id}>
+                                            {station.policestationname} - {station.address}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option value="" disabled>
+                                        {isLoadingStations 
+                                            ? "Loading..." 
+                                            : `No police stations found in ${formData.district} district`}
+                                    </option>
+                                )}
+                            </select>
+                            {formData.district && !isLoadingStations && policeStations.length === 0 && (
+                                <small className="text-muted">
+                                    No police stations found in {formData.district} district. Please verify the district name.
+                                </small>
+                            )}
+                        </div>
+                    )}
 
                     <div className="form-group mb-3">
                         <label className="form-label">Upload Evidence Photo</label>
