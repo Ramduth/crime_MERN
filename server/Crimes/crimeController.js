@@ -1,6 +1,7 @@
 // crimeController.js
 const Crime = require("./crimeSchema");
 const multer = require('multer')
+const notificationService = require('../services/notificationService');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./upload"); // Ensure "upload" directory exists and is writable
@@ -100,9 +101,25 @@ const addAnonymousCrime = async (req, res) => {
         // Save new crime to database
         newCrime
             .save()
-            .then((data) => {
+            .then(async (data) => {
                 console.log('Anonymous crime saved successfully:', data);
                 console.log('Saved Aadhar:', data.aadhar);
+                
+                // Send email notification if email is provided
+                if (req.body.victimEmail) {
+                    try {
+                        await notificationService.sendNotification({
+                            type: 'caseSubmitted',
+                            email: req.body.victimEmail,
+                            caseId: data._id,
+                            aadhar: data.aadhar
+                        });
+                        console.log('Email notification sent for case submission');
+                    } catch (error) {
+                        console.error('Failed to send email notification:', error);
+                    }
+                }
+                
                 res.json({
                     status: 200,
                     msg: "Anonymous crime report submitted successfully",
@@ -280,7 +297,12 @@ const deleteCrimeById = async (req, res) => {
 const acceptCrimeById = async (req, res) => {
     try {
         const { id } = req.params;
-        const crime = await Crime.findByIdAndUpdate({ _id: id }, { approvalStatus: 'approved' })
+        const crime = await Crime.findByIdAndUpdate(
+            { _id: id }, 
+            { approvalStatus: 'approved' },
+            { new: true }
+        ).populate('psId');
+        
         if (!crime) {
             return res.json({
                 status: 404,
@@ -288,6 +310,22 @@ const acceptCrimeById = async (req, res) => {
                 data: null
             });
         }
+        
+        // Send email notification if email is available
+        if (crime.victimEmail) {
+            try {
+                await notificationService.sendNotification({
+                    type: 'caseApproved',
+                    email: crime.victimEmail,
+                    caseId: crime._id,
+                    policeStation: crime.psId ? crime.psId.policestationname : 'Police Station'
+                });
+                console.log('Email notification sent for case approval');
+            } catch (error) {
+                console.error('Failed to send email notification:', error);
+            }
+        }
+        
         res.json({
             status: 200,
             msg: "Crime data Approved successfully",
@@ -302,7 +340,12 @@ const acceptCrimeById = async (req, res) => {
 const rejectCrimeById = async (req, res) => {
     try {
         const { id } = req.params;
-        const crime = await Crime.findByIdAndUpdate({ _id: id }, { approvalStatus: 'rejected' })
+        const crime = await Crime.findByIdAndUpdate(
+            { _id: id }, 
+            { approvalStatus: 'rejected' },
+            { new: true }
+        ).populate('psId');
+        
         if (!crime) {
             return res.json({
                 status: 404,
@@ -310,6 +353,21 @@ const rejectCrimeById = async (req, res) => {
                 data: null
             });
         }
+        
+        // Send email notification if email is available
+        if (crime.victimEmail) {
+            try {
+                await notificationService.sendNotification({
+                    type: 'caseRejected',
+                    email: crime.victimEmail,
+                    policeStation: crime.psId ? crime.psId.policestationname : 'Police Station'
+                });
+                console.log('Email notification sent for case rejection');
+            } catch (error) {
+                console.error('Failed to send email notification:', error);
+            }
+        }
+        
         res.json({
             status: 200,
             msg: "Crime data Rejected successfully",

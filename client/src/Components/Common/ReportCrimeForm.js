@@ -10,6 +10,7 @@ function ReportCrimeForm() {
         name: '',
         aadhar: '',
         mobile: '',
+        email: '',
         location: '',
         district: '',
         policeStationId: '',
@@ -178,6 +179,7 @@ function ReportCrimeForm() {
             submitData.append('victimName', formData.name);
             submitData.append('aadhar', formData.aadhar);
             submitData.append('mobile', formData.mobile);
+            submitData.append('victimEmail', formData.email);
             submitData.append('district', formData.district);
             submitData.append('psId', formData.policeStationId);
             submitData.append('caseType', formData.crimeType);
@@ -204,6 +206,7 @@ function ReportCrimeForm() {
                 victimName: formData.name,
                 aadhar: formData.aadhar,
                 mobile: formData.mobile,
+                victimEmail: formData.email,
                 district: formData.district,
                 psId: formData.policeStationId,
                 caseType: formData.crimeType,
@@ -283,6 +286,18 @@ function ReportCrimeForm() {
                             required
                             maxLength="10"
                             pattern="[0-9]{10}"
+                        />
+                    </div>
+
+                    <div className="form-group mb-3">
+                        <input
+                            type="email"
+                            className="form-control"
+                            name="email"
+                            placeholder="Email Address"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
                         />
                     </div>
 
