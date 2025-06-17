@@ -168,21 +168,41 @@ function ReportCrimeForm() {
         try {
             const submitData = new FormData();
             
-            // Add all form fields
-            submitData.append('victimName', formData.name);  // Using victimName instead of name
+            // Add all form fields with correct field names
+            submitData.append('victimName', formData.name);
             submitData.append('aadhar', formData.aadhar);
             submitData.append('district', formData.district);
             submitData.append('psId', formData.policeStationId);
             submitData.append('caseType', formData.crimeType);
             submitData.append('caseDescription', formData.crimeDescription);
-            submitData.append('incidentDate', formData.dateTime.split('T')[0]);
-            submitData.append('incidentTime', formData.dateTime.split('T')[1]);
+            
+            // Convert date string to proper format
+            const dateTime = new Date(formData.dateTime);
+            submitData.append('incidentDate', dateTime.toISOString().split('T')[0]);
+            submitData.append('incidentTime', dateTime.toTimeString().split(' ')[0]);
             submitData.append('incidentLocation', formData.location);
+            
+            // Add citizen ID only if user is logged in (optional for anonymous reporting)
+            const citizenToken = localStorage.getItem('citizenToken');
+            if (citizenToken) {
+                submitData.append('citizenId', citizenToken);
+            }
             
             // Add evidence photo
             if (formData.photo) {
                 submitData.append('files', formData.photo);
             }
+
+            console.log('Submitting data:', {
+                victimName: formData.name,
+                district: formData.district,
+                psId: formData.policeStationId,
+                caseType: formData.crimeType,
+                incidentDate: dateTime.toISOString().split('T')[0],
+                incidentTime: dateTime.toTimeString().split(' ')[0],
+                incidentLocation: formData.location,
+                citizenId: citizenToken || 'Anonymous'
+            });
 
             // Submit the crime report
             const response = await axiosInstance.post('/addcrime', submitData, {
@@ -190,6 +210,8 @@ function ReportCrimeForm() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+
+            console.log('Response:', response.data);
 
             if (response.data.status === 200) {
                 alert('Crime report submitted successfully! The police station will review your report. Please keep your Aadhar number for future reference.');
@@ -199,7 +221,12 @@ function ReportCrimeForm() {
             }
         } catch (error) {
             console.error('Error submitting form:', error);
-            alert('Error submitting form. Please try again.');
+            if (error.response) {
+                console.error('Error response:', error.response.data);
+                alert('Error submitting form: ' + (error.response.data.msg || error.message));
+            } else {
+                alert('Error submitting form. Please try again.');
+            }
         }
     };
 

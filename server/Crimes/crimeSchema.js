@@ -107,7 +107,7 @@ const caseSchema = new mongoose.Schema({
   },
   citizenId:{
     type: mongoose.Schema.Types.ObjectId,
-    required:true,
+    required: false,
     ref:'citizens'
   }
 });

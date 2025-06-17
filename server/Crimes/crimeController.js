@@ -19,27 +19,35 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).array("files", 5)
 // Add a new crime
 const addCrime = async (req, res) => {
-    console.log('req',req);
+    console.log('=== ADD CRIME REQUEST ===');
+    console.log('Request body:', req.body);
+    console.log('Request files:', req.files);
+    console.log('=======================');
+    
     try {
         // Handle file upload using Multer
 
-
         // Prepare evidence files array from uploaded files
-        const evidenceFiles = req.files.map((file) => ({
+        const evidenceFiles = req.files ? req.files.map((file) => ({
             file: file
             // filetype: file.mimetype,
             // filepath: file.path,
-        }));
+        })) : [];
 
-        const newCrime = new Crime({
+        const crimeData = {
             ...req.body,
             evidenceFiles: evidenceFiles,
-        });
+        };
+
+        console.log('Crime data to save:', crimeData);
+
+        const newCrime = new Crime(crimeData);
 
         // Save new crime to database
         newCrime
             .save()
             .then((data) => {
+                console.log('Crime saved successfully:', data);
                 res.json({
                     status: 200,
                     msg: "Crime added successfully",
@@ -47,15 +55,16 @@ const addCrime = async (req, res) => {
                 });
             })
             .catch((err) => {
+                console.error('Database save error:', err);
                 res.json({
                     status: 500,
                     msg: "Crime not added",
-                    error: err,
+                    error: err.message,
                 });
             });
 
     } catch (error) {
-        console.log(error);
+        console.log('General error:', error);
         res.status(500).json({ message: error.message });
     }
 };
