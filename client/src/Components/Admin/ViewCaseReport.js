@@ -66,7 +66,7 @@ function ViewCaseReport() {
             {data.map((caseview, index) => (
               <tr>
                 <th>{index + 1}</th>
-                <td>{caseview.psId.policestationname}</td>
+                <td>{caseview.psId && caseview.psId.policestationname ? caseview.psId.policestationname : 'Not Assigned'}</td>
                 <td>{caseview.district}</td>
                 <td>{caseview.victimName}</td>
                 <td>{caseview.caseType}</td>

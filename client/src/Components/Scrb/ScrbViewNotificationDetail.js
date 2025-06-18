@@ -51,7 +51,7 @@ function ScrbViewNotificationDetail() {
           {crimeAlerts.map((alert,i) => (
             <tr key={alert.id}>
               <td>{i+1}</td>
-              <td>{alert.psId.policestationname}</td>
+              <td>{alert.psId && alert.psId.policestationname ? alert.psId.policestationname : 'Not Assigned'}</td>
               <td>{alert.victimName}</td>
               <td>{alert.caseType}</td>
               <td>{alert.witnessName}</td>

@@ -102,7 +102,7 @@ const getData=()=>{
                             <tr>
                             <th>{index +1}</th>
                             <td>{newpolicestationreq.policestationname}</td>
-                            <td>{newpolicestationreq.stationchargeofficers}</td>
+                            <td>{newpolicestationreq.stationchargeofficers || 'Not Assigned'}</td>
                             <td>{newpolicestationreq.policestationcode}</td>
                             <td>{newpolicestationreq.district}</td>
                             <td >

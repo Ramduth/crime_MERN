@@ -11,7 +11,7 @@ const caseSchema = new Schema(
             citizenId: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "citizens",
-                required:true
+                required: false
                 },
                 
            date:{

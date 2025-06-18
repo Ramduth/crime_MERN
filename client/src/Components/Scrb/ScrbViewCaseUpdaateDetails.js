@@ -96,7 +96,11 @@ function ScrbViewCaseUpdaateDetails() {
                       <label>Name</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.citizenId.firstname}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.firstname 
+                          ? caseDetails.citizenId.firstname 
+                          : (caseDetails.victimName || 'Anonymous')}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -104,7 +108,11 @@ function ScrbViewCaseUpdaateDetails() {
                       <label>Contact</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.citizenId.contact}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.contact 
+                          ? caseDetails.citizenId.contact 
+                          : (caseDetails.mobile || 'Not provided')}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -112,7 +120,11 @@ function ScrbViewCaseUpdaateDetails() {
                       <label>Email</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.citizenId.email}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.email 
+                          ? caseDetails.citizenId.email 
+                          : (caseDetails.victimEmail || 'Not provided')}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -120,7 +132,11 @@ function ScrbViewCaseUpdaateDetails() {
                       <label>Aadhaar Number</label>
                     </td>
                     <td className="case-details-victim1">
-                      <span>{caseDetails.citizenId.aadhar}</span>
+                      <span>
+                        {caseDetails.citizenId && typeof caseDetails.citizenId === 'object' && caseDetails.citizenId.aadhar 
+                          ? caseDetails.citizenId.aadhar 
+                          : (caseDetails.aadhar || 'Not provided')}
+                      </span>
                     </td>
                   </tr>
                 </tbody>

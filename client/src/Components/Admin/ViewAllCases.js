@@ -35,7 +35,7 @@ function ViewAllCases() {
             <div className=' text-center mt-5 text-danger'>
                 <div className='row'>
                     <div className='col-md-9'>
-                        <h5>View All Cases</h5>
+                        <h5>View All CasesSSS</h5>
                     </div>
                     <div className='col-md-3'>
                         {/* <div className="search-box">
@@ -69,7 +69,7 @@ function ViewAllCases() {
                         {data.map ((caseview,index) => (
                             <tr>
                             <th>{index +1}</th>
-                            <td>{caseview.psId.policestationname}</td>
+                            <td>{caseview.psId && caseview.psId.policestationname ? caseview.psId.policestationname : 'Not Assigned'}</td>
                             <td>{caseview.victimName}</td>
                             <td>{caseview.caseType}</td>
                             <td>{caseview.witnessName}</td>

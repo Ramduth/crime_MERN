@@ -57,7 +57,7 @@ function ViewComplaints() {
                             {complaints.map((complaint, index) => (
                                 <tr key={index} onClick={() => openModal(complaint)} data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <td className='crime-alerts-table-th-td'>{index + 1}</td>
-                                    <td className='crime-alerts-table-th-td'>{complaint.citizenId.firstname}</td>
+                                    <td className='crime-alerts-table-th-td'>{complaint.citizenId && complaint.citizenId.firstname ? complaint.citizenId.firstname : 'Unknown User'}</td>
                                     <td className='crime-alerts-table-th-td'>{complaint.date.slice(0, 10)}</td>
                                     <td className='crime-alerts-table-th-td'>{complaint.complaint}</td>
                                 </tr>

@@ -66,11 +66,19 @@ function ScrbViewCaseUpdate() {
               {data.map((caseview, index) => (
                 <tr>
                   <th>{index + 1}</th>
-                  <td>{caseview.psId.policestationname}</td>
+                  <td>{caseview.psId && caseview.psId.policestationname ? caseview.psId.policestationname : 'Not Assigned'}</td>
                   <td>{caseview.district}</td>
-                  <td>{caseview.victimName}</td>
+                  <td>{
+                    caseview.citizenId
+                      ? (caseview.victimName && caseview.victimName.trim() ? caseview.victimName : 'Not provided')
+                      : 'Not provided'
+                  }</td>
                   <td>{caseview.caseType}</td>
-                  <td>{caseview.witnessName}</td>
+                  <td>{
+                    caseview.citizenId
+                      ? (caseview.witnessName && caseview.witnessName.trim() ? caseview.witnessName : 'Not provided')
+                      : (caseview.victimName && caseview.victimName.trim() ? caseview.victimName : 'Not provided')
+                  }</td>
                   <td>{caseview.incidentDate.slice(0, 10)}</td>
                   <td>
                     <Link to={`/scrb-viewcasereportdetail/${caseview._id}`}>

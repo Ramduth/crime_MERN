@@ -185,7 +185,7 @@ function ScrbGenerateCrimeAlert() {
         </div>
         <div className="text-center mt-5 text-danger">
           <div className="row">
-            <h5>View All Cases</h5>
+            <h5>View All CasesSSSSSSSSSSS</h5>
           </div>
           <div className="row m-3">
             <div className="col-md-3 text-black align-left">Filter by</div>
@@ -296,7 +296,7 @@ function ScrbGenerateCrimeAlert() {
                 {data.map((caseview, index) => (
                   <tr key={index}>
                     <th>{index + 1}</th>
-                    <td>{caseview.psId.policestationname}</td>
+                    <td>{caseview.psId && caseview.psId.policestationname ? caseview.psId.policestationname : 'Not Assigned'}</td>
                     <td>{caseview.victimName}</td>
                     <td>{caseview.caseType}</td>
                     <td>{caseview.witnessName}</td>

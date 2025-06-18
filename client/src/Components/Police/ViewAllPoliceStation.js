@@ -99,7 +99,7 @@ function ViewAllPoliceStation() {
                   <tr>
                     <th>{index + 1}</th>
                     <td>{policestationview.policestationname}</td>
-                    <td>{policestationview.stationchargeofficers}</td>
+                    <td>{policestationview.stationchargeofficers || 'Not Assigned'}</td>
                     <td>{policestationview.policestationcode}</td>
                     <td>{policestationview.district}</td>
                     <td>

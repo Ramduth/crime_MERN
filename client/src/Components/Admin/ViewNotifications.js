@@ -47,7 +47,7 @@ function ViewNotifications() {
               {crimeAlerts.map((alert) => (
                 <tr key={alert.id}>
                   <td className="crime-alerts-table-th-td">
-                    {alert.psId.policestationname}
+                    {alert.psId && alert.psId.policestationname ? alert.psId.policestationname : 'Not Assigned'}
                   </td>
                   <td className="crime-alerts-table-th-td">{alert.district}</td>
                   {/* <td className='crime-alerts-table-th-td'>{alert.count}</td> */}
@@ -57,7 +57,7 @@ function ViewNotifications() {
                   </td>
                   <td className="crime-alerts-table-th-td">
                     <Link
-                      to={`/admin-viewNotificationDetails/${alert.psId._id}`}
+                      to={`/admin-viewNotificationDetails/${alert.psId && alert.psId._id ? alert.psId._id : 'unknown'}`}
                     >
                       <button className="view-notification-details-btn">
                         View Details

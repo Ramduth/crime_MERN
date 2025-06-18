@@ -41,7 +41,7 @@ function CitizenViewPolice() {
                         </h6>
                         <p class="card-text">
                           Station Code : {e.policestationcode}<br/>
-                          Incharge Officer : {e.stationchargeofficers}<br/>
+                          Incharge Officer : {e.stationchargeofficers || 'Not Assigned'}<br/>
                           E-mail : {e.email}<br/>
                           Contact : {e.contact}<br/>
                         </p>

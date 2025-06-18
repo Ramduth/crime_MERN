@@ -52,12 +52,12 @@ function ScrbViewNotification() {
         <tbody>
           {crimeAlerts.map(alert => (
             <tr key={alert.id}>
-              <td className='crime-alerts-table-th-td'>{alert.psId.policestationname}</td>
+              <td className='crime-alerts-table-th-td'>{alert.psId && alert.psId.policestationname ? alert.psId.policestationname : 'Not Assigned'}</td>
               <td className='crime-alerts-table-th-td'>{alert.district}</td>
               {/* <td className='crime-alerts-table-th-td'>{alert.count}</td> */}
               <td className='crime-alerts-table-th-td'>{alert.caseType}</td>
               <td className='crime-alerts-table-th-td'>{alert.date.slice(0,10)}</td>
-              <td className='crime-alerts-table-th-td'><Link to={`/scrb-viewNotificationdetails/${alert.psId._id}`}><button className="view-notification-details-btn">View Details</button></Link></td>
+              <td className='crime-alerts-table-th-td'><Link to={`/scrb-viewNotificationdetails/${alert.psId && alert.psId._id ? alert.psId._id : 'unknown'}`}><button className="view-notification-details-btn">View Details</button></Link></td>
             </tr>
           ))}
         </tbody>

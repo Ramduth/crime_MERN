@@ -25,9 +25,14 @@ function AddCaseUpdate() {
     axiosInstance.post(`/viewCrimeById/${id}`)
       .then(res => {
         console.log(res);
-        setCitizenId(res.data.data.citizenId._id);
+        if (res.data.data.citizenId && res.data.data.citizenId._id) {
+          setCitizenId(res.data.data.citizenId._id);
+        } else {
+          setCitizenId(null);
+        }
         setPoliceId(res.data.data.psId._id);
-        setOfficer(res.data.data.psId.stationchargeofficers);
+        const officerName = res.data.data.psId.stationchargeofficers || 'Not Assigned';
+        setOfficer(officerName);
       })
       .catch(error => {
         console.error('Error adding police case:', error);
