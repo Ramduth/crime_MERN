@@ -76,25 +76,26 @@ function Chat({ onClose }) {
 
   return (
     <div style={{ 
-      width: "400px",
-      height: "600px",
-      fontFamily: "Arial, sans-serif",
+      width: "380px",
+      height: "550px",
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       display: "flex",
       flexDirection: "column",
-      backgroundColor: "#fff",
-      borderRadius: "15px",
-      boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-      overflow: "hidden"
+      backgroundColor: "#ffffff",
+      borderRadius: "20px",
+      boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+      overflow: "hidden",
+      border: "1px solid #e1e5e9"
     }}>
       
-      {/* FIXED HEADER */}
+      {/* HEADER */}
       <div style={{
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         color: "white",
-        padding: "15px 20px",
+        padding: "20px",
         textAlign: "center",
         position: "relative",
-        flexShrink: 0 // Prevents shrinking
+        flexShrink: 0
       }}>
         {/* Close Button */}
         {onClose && (
@@ -102,39 +103,60 @@ function Chat({ onClose }) {
             onClick={onClose}
             style={{
               position: "absolute",
-              top: "10px",
-              right: "15px",
+              top: "15px",
+              right: "20px",
               background: "rgba(255,255,255,0.2)",
               border: "none",
               color: "white",
               borderRadius: "50%",
-              width: "30px",
-              height: "30px",
+              width: "32px",
+              height: "32px",
               cursor: "pointer",
-              fontSize: "16px",
+              fontSize: "18px",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "center",
+              transition: "all 0.3s ease",
+              backdropFilter: "blur(10px)"
             }}
+            onMouseEnter={(e) => e.target.style.background = "rgba(255,255,255,0.3)"}
+            onMouseLeave={(e) => e.target.style.background = "rgba(255,255,255,0.2)"}
           >
             ✕
           </button>
         )}
         
-        <h3 style={{ margin: 0, fontSize: "1.2em" }}>🤖 AI Assistant</h3>
-        <p style={{ margin: "5px 0 0 0", opacity: 0.9, fontSize: "0.8em" }}>
-          Crime Reporting System
-        </p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+          <div style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.2)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "20px"
+          }}>
+            🤖
+          </div>
+          <div>
+            <h3 style={{ margin: 0, fontSize: "1.3em", fontWeight: "600" }}>AI Assistant</h3>
+            <p style={{ margin: "5px 0 0 0", opacity: 0.9, fontSize: "0.85em" }}>
+              Crime Reporting System
+            </p>
+          </div>
+        </div>
       </div>
       
-      {/* SCROLLABLE MESSAGES AREA */}
+      {/* MESSAGES AREA */}
       <div style={{ 
-        flex: 1, // Takes remaining space
+        flex: 1,
         overflowY: "auto",
-        padding: "15px",
+        padding: "20px",
         backgroundColor: "#f8f9fa",
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        gap: "15px"
       }}>
         {messages.map((m, i) => (
           <div
@@ -142,11 +164,10 @@ function Chat({ onClose }) {
             style={{
               display: "flex",
               justifyContent: m.sender === "user" ? "flex-end" : "flex-start",
-              marginBottom: "12px",
             }}
           >
             <div style={{
-              maxWidth: "80%",
+              maxWidth: "85%",
               display: "flex",
               flexDirection: "column",
               alignItems: m.sender === "user" ? "flex-end" : "flex-start"
@@ -154,24 +175,26 @@ function Chat({ onClose }) {
               <div
                 style={{
                   backgroundColor: m.sender === "user" ? "#007bff" : "#ffffff",
-                  color: m.sender === "user" ? "white" : "#333",
-                  padding: "10px 14px",
-                  borderRadius: m.sender === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                  border: m.sender === "bot" ? "1px solid #e0e0e0" : "none",
+                  color: m.sender === "user" ? "white" : "#2c3e50",
+                  padding: "12px 16px",
+                  borderRadius: m.sender === "user" ? "20px 20px 6px 20px" : "20px 20px 20px 6px",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  border: m.sender === "bot" ? "1px solid #e9ecef" : "none",
                   wordWrap: "break-word",
-                  lineHeight: "1.4",
+                  lineHeight: "1.5",
                   fontSize: "14px",
-                  whiteSpace: "pre-wrap" // Preserves line breaks
+                  whiteSpace: "pre-wrap",
+                  fontWeight: m.sender === "user" ? "500" : "400"
                 }}
               >
                 {m.text}
               </div>
               <span style={{
-                fontSize: "0.7em",
-                color: "#666",
-                marginTop: "4px",
-                padding: "0 8px"
+                fontSize: "0.75em",
+                color: "#6c757d",
+                marginTop: "6px",
+                padding: "0 8px",
+                fontWeight: "500"
               }}>
                 {formatTime(m.timestamp)}
               </span>
@@ -180,21 +203,21 @@ function Chat({ onClose }) {
         ))}
         
         {isLoading && (
-          <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "12px" }}>
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <div style={{
               backgroundColor: "#ffffff",
-              padding: "10px 14px",
-              borderRadius: "18px 18px 18px 4px",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              border: "1px solid #e0e0e0"
+              padding: "12px 16px",
+              borderRadius: "20px 20px 20px 6px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+              border: "1px solid #e9ecef"
             }}>
-              <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+              <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
                 <div className="typing-indicator">
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
-                <span style={{ marginLeft: "8px", color: "#666", fontSize: "12px" }}>AI is typing...</span>
+                <span style={{ marginLeft: "8px", color: "#6c757d", fontSize: "13px", fontWeight: "500" }}>AI is typing...</span>
               </div>
             </div>
           </div>
@@ -203,69 +226,99 @@ function Chat({ onClose }) {
         <div ref={messagesEndRef} />
       </div>
       
-      {/* FIXED INPUT AREA */}
+      {/* INPUT AREA */}
       <div style={{ 
-        padding: "15px",
-        backgroundColor: "#fff",
-        borderTop: "1px solid #e0e0e0",
+        padding: "20px",
+        backgroundColor: "#ffffff",
+        borderTop: "1px solid #e9ecef",
         display: "flex",
-        gap: "10px",
+        gap: "12px",
         alignItems: "flex-end",
-        flexShrink: 0 // Prevents shrinking
+        flexShrink: 0
       }}>
         <textarea
-          placeholder="Type your message..."
+          placeholder="Type your message here..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyPress}
           disabled={isLoading}
           style={{ 
             flex: 1, 
-            padding: "10px 12px", 
-            borderRadius: "20px",
-            border: "2px solid #e0e0e0",
+            padding: "12px 16px", 
+            borderRadius: "25px",
+            border: "2px solid #e9ecef",
             fontSize: "14px",
             resize: "none",
-            minHeight: "20px",
-            maxHeight: "80px",
+            minHeight: "24px",
+            maxHeight: "100px",
             outline: "none",
-            transition: "border-color 0.3s ease",
-            fontFamily: "Arial, sans-serif",
-            lineHeight: "1.4"
+            transition: "all 0.3s ease",
+            fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+            lineHeight: "1.4",
+            backgroundColor: "#f8f9fa"
           }}
-          onFocus={(e) => e.target.style.borderColor = "#007bff"}
-          onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
+          onFocus={(e) => {
+            e.target.style.borderColor = "#007bff";
+            e.target.style.backgroundColor = "#ffffff";
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = "#e9ecef";
+            e.target.style.backgroundColor = "#f8f9fa";
+          }}
         />
         <button 
           onClick={handleSend} 
           disabled={!input.trim() || isLoading}
           style={{ 
-            padding: "10px 16px",
-            borderRadius: "20px",
+            padding: "12px 20px",
+            borderRadius: "25px",
             border: "none",
-            backgroundColor: (!input.trim() || isLoading) ? "#ccc" : "#007bff",
+            backgroundColor: (!input.trim() || isLoading) ? "#dee2e6" : "#007bff",
             color: "white",
             cursor: (!input.trim() || isLoading) ? "not-allowed" : "pointer",
             fontSize: "14px",
-            fontWeight: "bold",
+            fontWeight: "600",
             transition: "all 0.3s ease",
-            minWidth: "60px",
-            height: "40px"
+            minWidth: "70px",
+            height: "48px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+          onMouseEnter={(e) => {
+            if (!(!input.trim() || isLoading)) {
+              e.target.style.backgroundColor = "#0056b3";
+              e.target.style.transform = "translateY(-1px)";
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!(!input.trim() || isLoading)) {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.transform = "translateY(0)";
+            }
           }}
         >
-          {isLoading ? "..." : "Send"}
+          {isLoading ? (
+            <div style={{ display: "flex", gap: "4px" }}>
+              <div style={{ width: "4px", height: "4px", borderRadius: "50%", backgroundColor: "white", animation: "pulse 1s infinite" }}></div>
+              <div style={{ width: "4px", height: "4px", borderRadius: "50%", backgroundColor: "white", animation: "pulse 1s infinite 0.2s" }}></div>
+              <div style={{ width: "4px", height: "4px", borderRadius: "50%", backgroundColor: "white", animation: "pulse 1s infinite 0.4s" }}></div>
+            </div>
+          ) : (
+            "Send"
+          )}
         </button>
       </div>
       
       <style jsx>{`
         .typing-indicator span {
-          height: 6px;
-          width: 6px;
+          height: 8px;
+          width: 8px;
           background-color: #007bff;
           border-radius: 50%;
           display: inline-block;
           animation: typing 1.4s infinite ease-in-out;
-          margin-right: 2px;
+          margin-right: 3px;
         }
         
         .typing-indicator span:nth-child(1) {
@@ -283,6 +336,15 @@ function Chat({ onClose }) {
           }
           40% {
             transform: scale(1);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.4;
+          }
+          50% {
             opacity: 1;
           }
         }
