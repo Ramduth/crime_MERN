@@ -1,6 +1,6 @@
 # 📧 Email Notification Setup Guide
 
-This guide will help you set up email notifications for the Crime Reporting System using Gmail SMTP (FREE).
+This guide will help you set up email notifications for the Crime Buster System using Gmail SMTP (FREE).
 
 ## 🚀 Quick Setup
 
@@ -19,7 +19,7 @@ This guide will help you set up email notifications for the Crime Reporting Syst
    - Go to "Security" tab
    - Click "App passwords" (under 2-Step Verification)
    - Select "Mail" and "Other (Custom name)"
-   - Enter "Crime Reporting System" as the name
+   - Enter "Crime Buster System" as the name
    - Click "Generate"
    - **Copy the 16-character password** (you'll need this)
 
@@ -118,7 +118,7 @@ The system includes these email templates:
 
 ## 📱 Frontend Integration
 
-The email field is automatically added to the crime reporting form. Users will receive:
+The email field is automatically added to the crime buster form. Users will receive:
 
 1. **Confirmation email** when they submit a report
 2. **Approval/Rejection emails** when police processes their case

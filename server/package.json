@@ -5,22 +5,34 @@
   "main": "test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "postinstall": "patch-package"
+  },
+  "resolutions": {
+    "@tensorflow/tfjs-core": "^4.22.0",
+    "@tensorflow/tfjs-converter": "^4.22.0",
+    "@tensorflow/tfjs-backend-cpu": "^4.22.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.22.0"
   },
   "author": "Skr",
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow/tfjs-node": "^4.17.0",
     "axios": "^1.10.0",
     "body-parser": "^1.20.2",
+    "canvas": "^2.11.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^4.19.2",
+    "face-api.js": "^0.22.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.4",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^7.0.3",
     "nodemon": "^3.1.0",
+    "patch-package": "^8.0.0",
     "twilio": "^5.7.1"
   }
 }

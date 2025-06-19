@@ -37,7 +37,7 @@ function ViewPrivacyPolicy() {
         <h4 className='text-danger view_policy_h4'>Privacy Policy</h4>
       </div>
       <div>
-        <h5 className='text-primary view_policy_h5'>Welcome To Crime Reporting Privacy Policy</h5>
+        <h5 className='text-primary view_policy_h5'>Welcome To Crime Buster Privacy Policy</h5>
         <p className='text-justify view_policy_p'>{content}</p>
       </div>
     </div>

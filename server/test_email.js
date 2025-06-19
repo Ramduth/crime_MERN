@@ -21,7 +21,7 @@ async function testEmail() {
     try {
         const result = await sendEmail(
             testEmail,
-            'Test Email - Crime Reporting System',
+            'Test Email - Crime Buster System',
             'This is a test email to verify that the email service is working correctly.'
         );
         

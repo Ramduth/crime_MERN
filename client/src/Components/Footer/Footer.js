@@ -16,7 +16,7 @@ function Footer() {
             </div>
             <div className="footer_logo_content">
               <p className="footer_logo_title">
-                Crime <span>Reporting</span>
+                Crime <span>Buster</span>
               </p>
               <p className="footer_logo_sub_title">Stay connect stay safe</p>
             </div>
@@ -29,12 +29,12 @@ function Footer() {
           <div>
             <p className="footer_title">Contact</p>
             <p className="footer_content">(+91)1234567890</p>
-            <p className="footer_content">crimereporting@gmail.com</p>
+            <p className="footer_content">crimebuster@gmail.com</p>
           </div>
           <div>
             <p className="footer_title">Location</p>
             <p className="footer_content">abc building</p>
-            <p className="footer_content">crimereporting@gmail.com</p>
+            <p className="footer_content">crimebuster@gmail.com</p>
           </div>
           <div>
             <p className="footer_title">Keep In Touch</p>

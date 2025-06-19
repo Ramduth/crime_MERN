@@ -20,7 +20,7 @@ function ContactUs() {
             <div className="row">
               <div className="col-7">
                 <MdOutlineMail className="contact_icon" />
-                crimereporting@gmail.com
+                crimebuster@gmail.com
               </div>
               <div className="col-5">
                 <IoCallOutline className="contact_icon" />

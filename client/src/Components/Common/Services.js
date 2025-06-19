@@ -10,10 +10,10 @@ function Services() {
             <div className="col-6">
               <p className="services_sub_title">Our Services</p>
               <p className="services_title">
-                Our Comprehensive Crime Reporting Services
+                Our Comprehensive Crime Buster Services
               </p>
               <p className="services_para">
-                Welcome to our Crime Reporting System, where community safety is
+                Welcome to our Crime Buster System, where community safety is
                 our top priority. Explore our comprehensive services designed to
                 empower citizens, enhance law enforcement capabilities, and
                 ensure effective system management. With our user-friendly

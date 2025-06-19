@@ -25,7 +25,7 @@ const sendEmail = async (toEmail, subject, message) => {
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <div style="background-color: #f8f9fa; padding: 20px; text-align: center;">
-                        <h2 style="color: #dc3545; margin: 0;">Crime Reporting System</h2>
+                        <h2 style="color: #dc3545; margin: 0;">Crime Buster System</h2>
                     </div>
                     <div style="padding: 20px; background-color: white;">
                         <p style="font-size: 16px; line-height: 1.6; color: #333;">
@@ -33,7 +33,7 @@ const sendEmail = async (toEmail, subject, message) => {
                         </p>
                         <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
                         <p style="font-size: 12px; color: #666; text-align: center;">
-                            This is an automated notification from the Crime Reporting System.<br>
+                            This is an automated notification from the Crime Buster System.<br>
                             Please do not reply to this email.
                         </p>
                     </div>

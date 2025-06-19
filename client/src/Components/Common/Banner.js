@@ -11,11 +11,11 @@ function Banner() {
           <p className="home_page_head_title">
             Secure Neighborhoods:
             <br />
-            Unveiling the Crime Reporting System
+            Unveiling the Crime Buster System
           </p>
           <p className="home_page_head_para">
             Be the catalyst for change—report, engage, and build a secure future
-            for your community with the Crime Reporting System.
+            for your community with the Crime Buster System.
           </p>
           
           {/* Report Crime Button */}

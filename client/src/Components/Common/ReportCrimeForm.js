@@ -3,6 +3,7 @@ import '../../Assets/Styles/ReportCrimeForm.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import axiosInstance from '../Constants/BaseUrl';
+import ImageAnalysis from '../Common/ImageAnalysis';
 
 function ReportCrimeForm() {
     const navigate = useNavigate();
@@ -25,6 +26,9 @@ function ReportCrimeForm() {
     const [policeStations, setPoliceStations] = useState([]);
     const [isLoadingStations, setIsLoadingStations] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    // --- Image Analysis State ---
+    const [analysisIndex, setAnalysisIndex] = useState(null); // which file to analyze
+    const [analysisResult, setAnalysisResult] = useState({}); // store results per file
 
     const crimeTypes = [
         'Theft',
@@ -48,14 +52,17 @@ function ReportCrimeForm() {
                 alert(`You can only upload a maximum of 5 files. You currently have ${currentCount} files and trying to add ${newFiles.length} more. Please remove some files first.`);
                 return;
             }
-            
             setFormData(prev => ({
                 ...prev,
                 photos: [...prev.photos, ...newFiles]
             }));
-            
             const newUrls = newFiles.map(file => URL.createObjectURL(file));
             setPreviewUrls(prev => [...prev, ...newUrls]);
+            // Start analysis for the first new image (if it's an image)
+            const firstImageIndex = newFiles.findIndex(f => f.type.startsWith('image/'));
+            if (firstImageIndex !== -1) {
+                setAnalysisIndex(currentCount + firstImageIndex);
+            }
         } else if (name === 'location') {
             setFormData(prev => ({
                 ...prev,
@@ -87,9 +94,13 @@ function ReportCrimeForm() {
             ...prev,
             photos: prev.photos.filter((_, i) => i !== index)
         }));
-        
         URL.revokeObjectURL(previewUrls[index]);
         setPreviewUrls(prev => prev.filter((_, i) => i !== index));
+        setAnalysisResult(prev => {
+            const newResult = { ...prev };
+            delete newResult[index];
+            return newResult;
+        });
     };
 
     const clearAllFiles = () => {
@@ -99,6 +110,7 @@ function ReportCrimeForm() {
             photos: []
         }));
         setPreviewUrls([]);
+        setAnalysisResult({});
     };
 
     const searchLocation = async (query) => {
@@ -234,7 +246,19 @@ function ReportCrimeForm() {
             }
             
             formData.photos.forEach((file, index) => {
-                submitData.append('files', file);
+                if (file.type && file.type.startsWith('image/') && analysisResult[index] && analysisResult[index].blurredImage) {
+                    // Convert base64 to Blob
+                    const byteString = atob(analysisResult[index].blurredImage);
+                    const ab = new ArrayBuffer(byteString.length);
+                    const ia = new Uint8Array(ab);
+                    for (let i = 0; i < byteString.length; i++) {
+                        ia[i] = byteString.charCodeAt(i);
+                    }
+                    const blob = new Blob([ab], { type: 'image/jpeg' });
+                    submitData.append('files', blob, file.name);
+                } else {
+                    submitData.append('files', file);
+                }
             });
 
             console.log('Submitting data:', {
@@ -279,8 +303,37 @@ function ReportCrimeForm() {
         }
     };
 
+    // --- Image Analysis Modal Logic ---
+    const currentFile = analysisIndex !== null ? formData.photos[analysisIndex] : null;
+    // Find next image to analyze
+    useEffect(() => {
+        if (analysisIndex !== null && formData.photos[analysisIndex]) {
+            const file = formData.photos[analysisIndex];
+            if (!file.type.startsWith('image/')) {
+                // Skip non-image files
+                setAnalysisIndex(analysisIndex + 1 < formData.photos.length ? analysisIndex + 1 : null);
+            }
+        }
+    }, [analysisIndex, formData.photos]);
+
     return (
         <div className="report-crime-container">
+            {/* Image Analysis Modal */}
+            {currentFile && !analysisResult[analysisIndex] && currentFile.type.startsWith('image/') && (
+                <ImageAnalysis
+                    file={currentFile}
+                    onAnalysisComplete={result => {
+                        setAnalysisResult(prev => ({ ...prev, [analysisIndex]: result }));
+                        // Move to next image if any
+                        const nextIndex = analysisIndex + 1;
+                        if (nextIndex < formData.photos.length) {
+                            setAnalysisIndex(nextIndex);
+                        } else {
+                            setAnalysisIndex(null);
+                        }
+                    }}
+                />
+            )}
             <div className="report-crime-form-box">
                 <h2 className="text-center mb-4">Report a Crime</h2>
                 <p className="text-center mb-4">Please provide the details of the crime</p>

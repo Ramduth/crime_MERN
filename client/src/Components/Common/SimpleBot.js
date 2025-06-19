@@ -4,7 +4,7 @@ function Chat({ onClose }) {
   const [messages, setMessages] = useState([
     { 
       sender: "bot", 
-      text: "Hello! I'm your AI assistant for the crime reporting system. I can help you with reporting crimes, navigating the system, or answer general questions. How can I assist you today?",
+      text: "Hello! I'm your AI assistant for the crime buster system. I can help you with reporting crimes, navigating the system, or answer general questions. How can I assist you today?",
       timestamp: new Date()
     },
   ]);
@@ -142,7 +142,7 @@ function Chat({ onClose }) {
           <div>
             <h3 style={{ margin: 0, fontSize: "1.3em", fontWeight: "600" }}>AI Assistant</h3>
             <p style={{ margin: "5px 0 0 0", opacity: 0.9, fontSize: "0.85em" }}>
-              Crime Reporting System
+              Crime Buster System
             </p>
           </div>
         </div>

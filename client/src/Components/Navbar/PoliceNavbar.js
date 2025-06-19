@@ -39,7 +39,7 @@ function PoliceNavbar() {
             <img src={logo} className="img-fluid" alt="logo" />
             <div>
               <p className="navbar_title">
-                Crime <span>Reporting</span>
+                Crime <span>Buster</span>
               </p>
               <p className="navbar_slogan">Stay connected stay safe</p>
             </div>

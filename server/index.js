@@ -52,15 +52,15 @@ app.post("/chat", async (req, res) => {
 
     if (!model) throw new Error("No valid Gemini model found");
 
-    const prompt = `You are an intelligent AI assistant for a crime reporting system. You should be helpful, professional, and knowledgeable about crime reporting procedures.
+    const prompt = `You are an intelligent AI assistant for a crime buster system. You should be helpful, professional, and knowledgeable about crime buster procedures.
 
-Context: This is a digital crime reporting platform where citizens can report crimes and get assistance.
+Context: This is a digital crime buster platform where citizens can report crimes and get assistance.
 
 User message: "${userMessage}"
 
 Instructions:
 - Be conversational and friendly like ChatGPT
-- If asked about crime reporting, provide helpful step-by-step guidance
+- If asked about crime buster, provide helpful step-by-step guidance
 - If asked general questions, answer naturally and helpfully
 - Keep responses under 300 words but be thorough
 - Use a professional but approachable tone
@@ -80,14 +80,14 @@ Respond naturally and helpfully:`;
 
     const userMessageLower = userMessage.toLowerCase();
     const fallbackReplies = {
-      hi: "Hello! 👋 I'm your AI assistant for the crime reporting system. How can I assist you today?",
-      hello: "Welcome to the crime reporting system. How can I help you today?",
-      help: "I'm here to help! You can ask me about crime reporting procedures, emergencies, or system guidance.",
+      hi: "Hello! 👋 I'm your AI assistant for the crime buster system. How can I assist you today?",
+      hello: "Welcome to the crime buster system. How can I help you today?",
+      help: "I'm here to help! You can ask me about crime buster procedures, emergencies, or system guidance.",
       report: "To report a crime, use our online form with details like date, location, and any evidence.",
       emergency: "🚨 If you're in an emergency, please call 911 immediately. This system is for non-emergency reports.",
-      thank: "You're welcome! I'm always here to help with crime reporting or related questions.",
+      thank: "You're welcome! I'm always here to help with crime buster or related questions.",
       bye: "Goodbye! Stay safe and feel free to return with more questions anytime.",
-      default: `I understand you said: "${userMessage}". I'm here to help with crime reporting or related questions.`
+      default: `I understand you said: "${userMessage}". I'm here to help with crime buster or related questions.`
     };
 
     let reply = fallbackReplies.default;
@@ -121,6 +121,9 @@ app.get("/ai-status", async (req, res) => {
     res.json({ status: "AI error", error: error.message });
   }
 });
+
+const imageAnalysisRouter = require('./routes/imageAnalysis');
+app.use('/api/image-analysis', imageAnalysisRouter);
 
 // Start the server
 app.listen(PORT, () => {
