@@ -18,16 +18,7 @@ router.post('/analyze', upload.single('image'), async (req, res) => {
         }
 
         const results = await imageAnalysisService.analyzeCrimeEvidence(req.file.buffer);
-        
-        res.json({
-            success: true,
-            analysis: {
-                faces: results.faces,
-                objects: results.objects,
-                licensePlates: results.licensePlates
-            },
-            blurredImage: results.blurredImage.toString('base64')
-        });
+        res.json(results);
     } catch (error) {
         console.error('Error analyzing image:', error);
         res.status(500).json({ error: 'Failed to analyze image' });

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weapon Detection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .upload-container {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        #preview {
+            max-width: 100%;
+            margin: 20px 0;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: none;
+        }
+        .weapon-info {
+            background-color: #fff3f3;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 3px solid red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weapon Detection Test</h1>
+    <div class="upload-container">
+        <input type="file" id="imageInput" accept="image/*">
+        <p>Select an image to test weapon detection</p>
+    </div>
+    <div>
+        <h3>Original Image:</h3>
+        <img id="preview" style="display: none;">
+    </div>
+    <div>
+        <h3>Processed Image (with weapon detection):</h3>
+        <img id="processed" style="display: none;">
+    </div>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('imageInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Show preview
+            const preview = document.getElementById('preview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+
+            // Create form data
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                // Upload image
+                const response = await fetch('http://localhost:4042/api/image-analysis/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                // Display results
+                const result = document.getElementById('result');
+                result.style.display = 'block';
+                
+                if (Array.isArray(data) && data.length > 0) {
+                    result.innerHTML = `
+                        <h3>Detected Weapons:</h3>
+                        ${data.map(weapon => `
+                            <div class="weapon-info">
+                                <p>Type: ${weapon.type}</p>
+                                <p>Confidence: ${(weapon.confidence * 100).toFixed(2)}%</p>
+                                <p>Location: x=${weapon.box.x.toFixed(2)}, y=${weapon.box.y.toFixed(2)}</p>
+                            </div>
+                        `).join('')}
+                    `;
+                } else {
+                    result.innerHTML = '<p>No weapons detected in this image.</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html> 

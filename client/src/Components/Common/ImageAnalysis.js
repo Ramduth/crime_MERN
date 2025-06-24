@@ -24,9 +24,8 @@ const ImageAnalysis = ({ file, onAnalysisComplete }) => {
             });
 
             setResults(response.data);
-            
-            // If there are sensitive objects detected, show the modal
-            if (response.data.analysis.faces.length > 0) {
+            // If weapons detected, show the modal, else auto-confirm
+            if (Array.isArray(response.data) && response.data.length > 0) {
                 setShowModal(true);
             } else {
                 handleConfirm();
@@ -42,13 +41,13 @@ const ImageAnalysis = ({ file, onAnalysisComplete }) => {
         setShowModal(false);
         onAnalysisComplete({
             originalFile: file,
-            blurredImage: results?.blurredImage,
-            analysis: results?.analysis
+            weapons: results
         });
     };
 
     React.useEffect(() => {
         analyzeImage();
+        // eslint-disable-next-line
     }, [file]);
 
     if (!showModal) return null;
@@ -68,39 +67,22 @@ const ImageAnalysis = ({ file, onAnalysisComplete }) => {
                     </div>
                 ) : error ? (
                     <div className="alert alert-danger">{error}</div>
-                ) : results && (
+                ) : Array.isArray(results) ? (
                     <div>
-                        <h5>Detected Items:</h5>
+                        <h5>Detected Weapons:</h5>
                         <ul>
-                            {results.analysis.faces.length > 0 && (
-                                <li>{results.analysis.faces.length} faces detected (will be automatically blurred)</li>
+                            {results.length > 0 ? (
+                                results.map((weapon, idx) => (
+                                    <li key={idx}>
+                                        {weapon.type} (Confidence: {Math.round(weapon.confidence * 100)}%)
+                                    </li>
+                                ))
+                            ) : (
+                                <li>No weapons detected.</li>
                             )}
-                            {results.analysis.objects.map((obj, idx) => (
-                                <li key={idx}>
-                                    {obj.class} (Confidence: {Math.round(obj.confidence * 100)}%)
-                                </li>
-                            ))}
                         </ul>
-                        
-                        {results.analysis.faces.length > 0 && (
-                            <div className="alert alert-info">
-                                For privacy reasons, detected faces will be automatically blurred in the uploaded image.
-                            </div>
-                        )}
-                        
-                        <div className="mt-3">
-                            <h6>Preview:</h6>
-                            {results.blurredImage && (
-                                <img 
-                                    src={`data:image/jpeg;base64,${results.blurredImage}`}
-                                    alt="Analyzed"
-                                    className="img-fluid"
-                                    style={{ maxHeight: '300px' }}
-                                />
-                            )}
-                        </div>
                     </div>
-                )}
+                ) : null}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => setShowModal(false)}>
